@@ -66,7 +66,7 @@ cd Pangolin && mkdir build && cd build && cmake ..
 make -j $(nproc --all) && sudo make install
 
 # Finally install OpenREALM
-cd ~ && mkdir OpenREALM && cd OpenREALM
-git clone https://github.com/laxnpander/OpenREALM_ROS1_Bridge.git
-cd OpenREALM_ROS1_Bridge && mkdir build && cd build && cmake -DTESTS_ENABLED=ON ..
-make -j $(nproc --all) sudo make install
+#cd ~ && mkdir OpenREALM && cd OpenREALM
+#git clone https://github.com/laxnpander/OpenREALM_ROS1_Bridge.git
+#cd OpenREALM_ROS1_Bridge && mkdir build && cd build && cmake -DTESTS_ENABLED=ON ..
+#make -j $(nproc --all) sudo make install
