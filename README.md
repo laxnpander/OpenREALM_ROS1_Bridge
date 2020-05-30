@@ -48,13 +48,7 @@ Linux (both Ubuntu 16.04 and 18.04)
 mkdir -p catkin_ws/src
 cd catkin/src
 
-# Clone Open REALM git and compile
-git clone https://github.com/laxnpander/OpenREALM.git
-
-cd ..
-
 # Make sure you are in your catkin_ws, not src
-# Configure catkin and cmake, blacklist cuda dependent packages
 catkin make -DCMAKE_BUILD_TYPE=Release
 ```
 
