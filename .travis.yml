@@ -21,7 +21,7 @@ env:
   global: # global settings for all jobs
     - ROS_REPO=ros
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
-    - BEFORE_INIT='sh ./install_deps.sh'
+    - BEFORE_INIT='bash ./install_deps.sh'
     - CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release"
     - TARGET_WORKSPACE='. -realm_densifier/realm_densifier_impl/psl'
     - ROSDEP_SKIP_KEYS=psl
