@@ -5,7 +5,7 @@ set -ex
 sudo apt update
 
 # Catkin tools for build process
-sudo apt install -y -q python-catkin-tools
+sudo apt install -y -q python-catkin-tools build-essential git
 
 # Check CMake version and update if necessary
 OUTPUT=$(cmake --version)
