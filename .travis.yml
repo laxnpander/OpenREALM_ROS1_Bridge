@@ -23,8 +23,6 @@ env:
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
     - BEFORE_INIT='bash ./install_deps.sh'
     - CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release"
-    - TARGET_WORKSPACE='. -realm_densifier/realm_densifier_impl/psl'
-    - ROSDEP_SKIP_KEYS=psl
 
   matrix: # each line is a job
     - ROS_DISTRO="kinetic"
