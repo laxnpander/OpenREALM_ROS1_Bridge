@@ -49,7 +49,7 @@ mkdir -p catkin_ws/src
 cd catkin/src
 
 # Make sure you are in your catkin_ws, not src
-catkin make -DCMAKE_BUILD_TYPE=Release
+catkin_make -DCMAKE_BUILD_TYPE=Release
 ```
 
 ## Quick Start
