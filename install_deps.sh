@@ -1,4 +1,5 @@
-# Check CMake version and update if necessary
+#!/bin/bash
+set -ex
 
 # Update the Apt Cache
 sudo apt update
@@ -6,6 +7,7 @@ sudo apt update
 # Catkin tools for build process
 sudo apt install -y -q python-catkin-tools
 
+# Check CMake version and update if necessary
 OUTPUT=$(cmake --version)
 read CMAKE_VERSION_MAJOR CMAKE_VERSION_MINOR CMAKE_VERSION_PATCH <<< ${OUTPUT//[^0-9]/ }
 
