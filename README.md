@@ -9,8 +9,8 @@ https://github.com/laxnpander/OpenREALM.git
 
 | OS         | ROS Distribution | Build Status |
 |:----------:|:----------------:|:------------:|
-|Ubuntu 16.04| ROS Kinetic      | [![Build Status](https://travis-ci.org/laxnpander/OpenREALM.svg?branch=master)](https://travis-ci.org/laxnpander/OpenREALM) |
-|Ubuntu 18.04| ROS Melodic      | [![Build Status](https://travis-ci.org/laxnpander/OpenREALM.svg?branch=master)](https://travis-ci.org/laxnpander/OpenREALM) |
+|Ubuntu 16.04| ROS Kinetic      | [![Build Status](https://travis-ci.org/laxnpander/OpenREALM_ROS1_Bridge.svg?branch=master)](https://travis-ci.org/github/laxnpander/OpenREALM_ROS1_Bridge) |
+|Ubuntu 18.04| ROS Melodic      | [![Build Status](https://travis-ci.org/laxnpander/OpenREALM_ROS1_Bridge.svg?branch=master)](https://travis-ci.org/github/laxnpander/OpenREALM_ROS1_Bridge) |
 
 For ROS installation please refer to: http://wiki.ros.org/
 
