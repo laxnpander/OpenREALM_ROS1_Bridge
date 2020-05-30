@@ -1,4 +1,11 @@
 # Check CMake version and update if necessary
+
+# Update the Apt Cache
+sudo apt update
+
+# Catkin tools for build process
+sudo apt install -y -q python-catkin-tools
+
 OUTPUT=$(cmake --version)
 read CMAKE_VERSION_MAJOR CMAKE_VERSION_MINOR CMAKE_VERSION_PATCH <<< ${OUTPUT//[^0-9]/ }
 
@@ -22,12 +29,6 @@ if [ "${CMAKE_VERSION_MINOR}" -le 9 ]; then
 
   export PATH="`pwd`/${CMAKE_FILE}/bin:$PATH"
 fi
-
-# Update the Apt Cache
-sudo apt update
-
-# Catkin tools for build process
-sudo apt install -y -q python-catkin-tools
 
 # Additional ROS package dependencies
 sudo apt install -y -q ros-$ROS_DISTRO-geographic-msgs
