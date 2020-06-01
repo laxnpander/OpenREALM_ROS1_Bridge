@@ -69,4 +69,4 @@ make -j $(nproc --all) && sudo make install
 cd ~ && mkdir OpenREALM && cd OpenREALM
 git clone -b cmake_only https://github.com/laxnpander/OpenREALM.git
 cd OpenREALM && mkdir build && cd build && cmake -DTESTS_ENABLED=ON ..
-make -j $(nproc --all) sudo make install
+make -j $(nproc --all) && make install
