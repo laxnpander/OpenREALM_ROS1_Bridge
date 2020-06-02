@@ -21,9 +21,6 @@
   <build_depend>geographic_msgs</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>realm_msgs</build_depend>
-  <build_depend>realm_core</build_depend>
-  <build_depend>realm_io</build_depend>
-  <build_depend>realm_stages</build_depend>
   <build_depend>cmake_modules</build_depend>
 
   <exec_depend>roscpp</exec_depend>
@@ -37,9 +34,6 @@
   <exec_depend>geographic_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>realm_msgs</exec_depend>
-  <exec_depend>realm_core</exec_depend>
-  <exec_depend>realm_io</exec_depend>
-  <exec_depend>realm_stages</exec_depend>
   <exec_depend>cmake_modules</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
