@@ -195,13 +195,47 @@ tf::StampedTransform to_ros::tfStamped(const geometry_msgs::PoseStamped &msg)
   return stamped_transform;
 }
 
+tf::Quaternion to_ros::quaternion(const cv::Mat &R)
+{
+  tf::Matrix3x3 tf_rot(R.at<double>(0, 0), R.at<double>(0, 1), R.at<double>(0, 2),
+                       R.at<double>(1, 0), R.at<double>(1, 1), R.at<double>(1, 2),
+                       R.at<double>(2, 0), R.at<double>(2, 1), R.at<double>(2, 2));
+  tf::Quaternion tf_quat;
+  tf_rot.getRotation(tf_quat);
+
+  return tf_quat;
+}
+
+cv::Mat to_realm::orientation(const geometry_msgs::Quaternion &msg)
+{
+  tf::Quaternion tf_quat;
+  tf::quaternionMsgToTF(msg, tf_quat);
+
+  tf::Matrix3x3 tf_mat(tf_quat);
+
+  cv::Mat R(3, 3, CV_64F);
+  R.at<double>(0, 0) = tf_mat[0][0];
+  R.at<double>(0, 1) = tf_mat[0][1];
+  R.at<double>(0, 2) = tf_mat[0][2];
+  R.at<double>(1, 0) = tf_mat[1][0];
+  R.at<double>(1, 1) = tf_mat[1][1];
+  R.at<double>(1, 2) = tf_mat[1][2];
+  R.at<double>(2, 0) = tf_mat[2][0];
+  R.at<double>(2, 1) = tf_mat[2][1];
+  R.at<double>(2, 2) = tf_mat[2][2];
+
+  return R;
+}
+
 realm::Frame::Ptr to_realm::frame(const realm_msgs::Frame &msg)
 {
   // Essential sensor data
   cv::Mat img = to_realm::imageCompressed(msg.imagedata);
   realm::UTMPose utm = to_realm::utm(msg.gpsdata, msg.heading);
   realm::camera::Pinhole::Ptr cam = to_realm::pinhole(msg.camera_model);
-  realm::Frame::Ptr frame = std::make_shared<realm::Frame>(msg.camera_id.data, msg.stage_id.data, msg.timestamp.data, img, utm, cam);
+
+  cv::Mat orientation = to_realm::orientation(msg.orientation);
+  realm::Frame::Ptr frame = std::make_shared<realm::Frame>(msg.camera_id.data, msg.stage_id.data, msg.timestamp.data, img, utm, cam, orientation);
 
   // Optional generated data
   if (msg.has_accurate_pose.data)
@@ -396,6 +430,8 @@ realm_msgs::Frame to_ros::frame(const std_msgs::Header &header, const realm::Fra
   msg.stage_id.data = frame->getFrameId();
   msg.timestamp.data = frame->getTimestamp();
   msg.camera_model = to_ros::pinhole(frame->getCamera());
+
+  tf::quaternionTFToMsg(to_ros::quaternion(frame->getDefaultPose().rowRange(0, 3).colRange(0, 3)), msg.orientation);
 
   geodesy::UTMPoint geo_utm;
   geo_utm.easting = frame->getGnssUtm().easting;

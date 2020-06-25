@@ -40,6 +40,7 @@
 #include <message_filters/time_synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/Imu.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <std_msgs/Float64.h>
 #include <realm_msgs/Frame.h>
@@ -72,6 +73,7 @@ private:
   std::string _topic_gnss;
   std::string _topic_heading;
   std::string _topic_relative_altitude;
+  std::string _topic_orientation;
   std::string _topic_out;
 
   // paths
@@ -91,7 +93,14 @@ private:
   std::mutex _mutex_relative_altitude;
   double _relative_altitude;
 
+  std::mutex _mutex_orientation;
+  cv::Mat _orientation;
+
   ros::NodeHandle _nh;
+
+  ros::Subscriber _sub_heading;
+  ros::Subscriber _sub_relative_altitude;
+  ros::Subscriber _sub_orientation;
 
   message_filters::Subscriber<sensor_msgs::Image> _sub_input_image;
   message_filters::Subscriber<sensor_msgs::NavSatFix> _sub_input_gnss;
@@ -107,6 +116,7 @@ private:
 
   void subHeading(const std_msgs::Float64 &msg);
   void subRelativeAltitude(const std_msgs::Float64 &msg);
+  void subOrientation(const sensor_msgs::Imu &msg);
   void subImageGnss(const sensor_msgs::ImageConstPtr &img, const sensor_msgs::NavSatFixConstPtr &gnss);
 
   void publish(const Frame::Ptr &frame);

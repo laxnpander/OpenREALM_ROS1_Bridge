@@ -5,6 +5,7 @@
     <arg name="topic_in_gnss" default="/mavros/global_position/global"/>
     <arg name="topic_in_heading" default="/mavros/global_position/compass_hdg"/>
     <arg name="topic_in_relative_altitude" default="/mavros/global_position/rel_alt"/>
+    <arg name="topic_in_orientation" default="/mavros/imu/data"/>
     <arg name="topic_out_adapter" default="/realm/$(arg camera_id)/input"/>
     <arg name="topic_pose_est" default="/realm/$(arg camera_id)/pose_estimation/frame"/>
     <arg name="topic_dense" default="/realm/$(arg camera_id)/densification/frame"/>

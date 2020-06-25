@@ -21,6 +21,9 @@ sensor_msgs/CompressedImage imagedata
 # (required) Camera_model containing pinhole parameters of capturing cam
 realm_msgs/Pinhole camera_model
 
+# (required) Camera orientation as quaternion
+geometry_msgs/Quaternion orientation
+
 # (required) Gnss data containing geodetic informations of the image
 sensor_msgs/NavSatFix gpsdata
 

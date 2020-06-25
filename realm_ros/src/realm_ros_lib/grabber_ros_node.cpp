@@ -24,7 +24,7 @@ using namespace realm;
 
 RosGrabberNode::RosGrabberNode()
   : _nrof_frames_received(0),
-    _fps(0.0),
+    _fps(1.0),
     _cam(nullptr),
     _sync_topics(ApproxTimePolicy(1000), _sub_input_image, _sub_input_gnss)
 {
@@ -51,8 +51,9 @@ RosGrabberNode::RosGrabberNode()
                   << "\n\tp2 = " << _cam->p2()
                   << "\n\tk3 = " << _cam->k3());
 
-  _nh.subscribe(_topic_heading, 10, &RosGrabberNode::subHeading, this, ros::TransportHints());
-  _nh.subscribe(_topic_relative_altitude, 10, &RosGrabberNode::subRelativeAltitude, this, ros::TransportHints());
+  _sub_heading = _nh.subscribe(_topic_heading, 10, &RosGrabberNode::subHeading, this, ros::TransportHints());
+  _sub_relative_altitude = _nh.subscribe(_topic_relative_altitude, 10, &RosGrabberNode::subRelativeAltitude, this, ros::TransportHints());
+  _sub_orientation = _nh.subscribe(_topic_orientation, 10, &RosGrabberNode::subOrientation, this, ros::TransportHints());
   _sub_input_image.subscribe(_nh, _topic_image, 10);
   _sub_input_gnss.subscribe(_nh, _topic_gnss, 10);
   _sync_topics.registerCallback(boost::bind(&RosGrabberNode::subImageGnss, this, _1, _2));
@@ -64,7 +65,9 @@ RosGrabberNode::RosGrabberNode()
                   "- GNSS topic:\t\t"   << _topic_gnss    << "\n"
                   "- Heading topic:\t"  << _topic_heading << "\n"
                   "- Rel. Altitude topic:  "  << _topic_relative_altitude << "\n"
+                  "- Orientation topic:\t"  << _topic_orientation << "\n"
                   "- Output topic:\t\t" << _topic_out     << "\n");
+
 }
 
 void RosGrabberNode::readParameters()
@@ -77,6 +80,7 @@ void RosGrabberNode::readParameters()
   param_nh.param("topic/gnss",              _topic_gnss,              std::string("uninitialised"));
   param_nh.param("topic/heading",           _topic_heading,           std::string("uninitialised"));
   param_nh.param("topic/relative_altitude", _topic_relative_altitude, std::string("uninitialised"));
+  param_nh.param("topic/orientation",       _topic_orientation,       std::string("uninitialised"));
   param_nh.param("topic/out",               _topic_out,               std::string("uninitialised"));
 }
 
@@ -93,7 +97,7 @@ void RosGrabberNode::setPaths()
 
 void RosGrabberNode::spin()
 {
-  ros::Rate rate(1.0);
+  ros::Rate rate(_fps);
   rate.sleep();
 }
 
@@ -116,6 +120,13 @@ void RosGrabberNode::subRelativeAltitude(const std_msgs::Float64 &msg)
   _mutex_relative_altitude.unlock();
 }
 
+void RosGrabberNode::subOrientation(const sensor_msgs::Imu &msg)
+{
+  _mutex_orientation.lock();
+  _orientation = to_realm::orientation(msg.orientation);
+  _mutex_orientation.unlock();
+}
+
 void RosGrabberNode::subImageGnss(const sensor_msgs::ImageConstPtr &msg_img, const sensor_msgs::NavSatFixConstPtr &msg_gnss)
 {
   cv::Mat img = to_realm::image(*msg_img);
@@ -134,7 +145,13 @@ void RosGrabberNode::subImageGnss(const sensor_msgs::ImageConstPtr &msg_img, con
   _mutex_heading.unlock();
   _mutex_relative_altitude.unlock();
 
-  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, msg_img->header.stamp.sec, img, utm, _cam);
+  cv::Mat orientation;
+  if (_topic_orientation == "uninitialised" || _orientation.empty())
+    orientation = io::computeOrientationFromHeading(utm.heading);
+  else
+    orientation = _orientation;
+
+  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, msg_img->header.stamp.sec, img, utm, _cam, orientation);
 
   std_msgs::Header header;
   header.stamp = ros::Time::now();
