@@ -114,6 +114,13 @@ tf::Transform tf(const geometry_msgs::Pose &msg);
 tf::Transform tf(const cv::Mat &cv_pose);
 
 /*!
+ * @brief Converter for OpenCV rotation matrix into ROS Quaternion
+ * @param R 3x3 rotation matrix
+ * @return ROS::tf quaternion
+ */
+tf::Quaternion quaternion(const cv::Mat &R);
+
+/*!
  * @brief Converter for OpenCV/REALM matrix to 4x4 matrix. Is used for homogenous transformation, because ROS tf can
  *        not handle scale in the Rotation
  * @param mat 4x4 matrix
@@ -281,6 +288,13 @@ cv::Mat pose(const tf::Transform &transform);
  *          (0 | 1)
  */
 cv::Mat tf(const geometry_msgs::Transform &msg);
+
+/*!
+ * @brief Converter for quaternion msg to opencv 3x3 rotation matrix
+ * @param msg Quaternion msg
+ * @return 3x3 rotation matrix
+ */
+cv::Mat orientation(const geometry_msgs::Quaternion &msg);
 
 /*!
  * @brief Converter for std_msgs::Float64MultiArray to opencv/REALM 4x4 matrix

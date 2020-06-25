@@ -82,6 +82,17 @@ Exiv2GrabberNode::Exiv2GrabberNode()
 
   // Start grabbing images
   _file_list = getFileList(_path_grab);
+
+  // Check if the exif tags in the config exist
+  ROS_INFO("Scanning input image for provided meta tags...");
+  std::map<std::string, bool> tag_existence = _exiv2_reader.probeImage(_file_list[0]);
+  for (const auto &tag : tag_existence)
+  {
+    if (tag.second)
+      ROS_INFO("[FOUND]\t\t'%s'", tag.first.c_str());
+    else
+      ROS_WARN("[NOT FOUND]\t'%s'", tag.first.c_str());
+  }
 }
 
 void Exiv2GrabberNode::readParams()
@@ -96,6 +107,7 @@ void Exiv2GrabberNode::readParams()
   param_nh.param("config/opt/georeference", _filepath_georeference, std::string("uninitialised"));
   param_nh.param("config/opt/surface_pts", _filepath_surface_pts, std::string("uninitialised"));
   param_nh.param("config/opt/set_all_keyframes", _do_set_all_keyframes, false);
+  param_nh.param("config/opt/working_directory", _path_working_directory, std::string("uninitialised"));
 
   if (_fps < 0.01)
     throw(std::invalid_argument("Error reading exiv2 grabber parameters: Frame rate is too low!"));
@@ -105,12 +117,15 @@ void Exiv2GrabberNode::readParams()
     _use_apriori_georeference = true;
   if (_filepath_surface_pts != "uninitialised")
     _use_apriori_surface_pts = true;
+  if (_path_working_directory != "uninitialised" && !io::dirExists(_path_working_directory))
+    throw(std::invalid_argument("Error: Working directory does not exist!"));
 }
 
 void Exiv2GrabberNode::setPaths()
 {
-  _path_package = ros::package::getPath("realm_ros");
-  _path_profile = _path_package + "/profiles/" + _profile;
+  if (_path_working_directory == "uninitialised")
+    _path_working_directory = ros::package::getPath("realm_ros");
+  _path_profile = _path_working_directory + "/profiles/" + _profile;
 
   _file_settings_camera = _path_profile + "/camera/calib.yaml";
 

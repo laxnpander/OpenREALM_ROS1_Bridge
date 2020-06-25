@@ -16,6 +16,7 @@
         <!--param name="config/opt/poses" type="string" value=""/-->
         <!--param name="config/opt/surface_pts" type="string" value=""/-->
         <!--param name="config/opt/set_all_keyframes" type="bool" value="True"/-->
+        <!--param name="config/opt/working_directory" type="string" value=""/-->
     </node>
 
     <node pkg="realm_ros" type="realm_stage_node" name="realm_pose_estimation" output="screen">

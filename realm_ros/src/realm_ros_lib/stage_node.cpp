@@ -351,7 +351,6 @@ void StageNode::pubImage(const cv::Mat &img, const std::string &topic)
 
 void StageNode::pubMesh(const std::vector<Face> &faces, const std::string &topic)
 {
-  std::cout << "blub1" << std::endl;
   std::unique_lock<std::mutex> lock(_mutex_do_shutdown);
   ros::Publisher publisher = _publisher[topic];
   if (publisher.getNumSubscribers() == 0)
