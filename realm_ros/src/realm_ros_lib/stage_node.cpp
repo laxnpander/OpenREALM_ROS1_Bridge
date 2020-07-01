@@ -77,7 +77,7 @@ StageNode::StageNode(int argc, char **argv)
 
   // set stage path if master stage
   if (_is_master_stage)
-    _stage->initStagePath(_path_output + "/" + _dir_output);
+    _stage->initStagePath(_path_output + "/" + _dir_date_time);
 
   // Start the thread for processing
   _stage->start();
@@ -100,7 +100,7 @@ void StageNode::spin()
   {
     // Share output folder with slaves
     std_msgs::String msg;
-    msg.data = _dir_output;
+    msg.data = _dir_date_time;
     _publisher["general/output_dir"].publish(msg);
   }
 
@@ -246,18 +246,18 @@ void StageNode::subFrame(const realm_msgs::Frame &msg)
 void StageNode::subOutputPath(const std_msgs::String &msg)
 {
   // check if output directory has changed
-  if (_dir_output != msg.data)
+  if (_dir_date_time != msg.data)
   {
     // Note: master privilege is not to create folder, but to set the name of the folder
-    _dir_output = msg.data;
-    if (!io::dirExists(_dir_output))
-      io::createDir(_dir_output);
-    _stage->initStagePath(_path_output + "/" + _dir_output);
+    _dir_date_time = msg.data;
+    if (!io::dirExists(_path_output + "/" + _dir_date_time))
+      io::createDir(_path_output + "/" + _dir_date_time);
+    _stage->initStagePath(_path_output + "/" + _dir_date_time);
 
     // Debug info
     ROS_INFO("STAGE_NODE [%s]: Received output directory, set to:\n\t%s",
              _type_stage.c_str(),
-             (_path_output + "/" + _dir_output).c_str());
+             (_path_output + "/" + _dir_date_time).c_str());
   }
 }
 
@@ -491,18 +491,25 @@ void StageNode::readParams()
   param_nh.param("config/id", _id_camera, std::string("uninitialised"));
   param_nh.param("config/profile", _profile, std::string("uninitialised"));
   param_nh.param("config/method", _method, std::string("uninitialised"));
+  param_nh.param("config/opt/working_directory", _path_working_directory, std::string("uninitialised"));
+  param_nh.param("config/opt/output_directory", _path_output, std::string("uninitialised"));
 
   // Set specific config file paths
   if (_profile == "uninitialised")
     throw(std::invalid_argument("Error: Stage settings profile must be provided in launch file."));
+  if (_path_working_directory != "uninitialised" && !io::dirExists(_path_working_directory))
+    throw(std::invalid_argument("Error: Working directory does not exist!"));
 }
 
 void StageNode::setPaths()
 {
-  // Set config path. It is currently fixed to .../realm_ros/config/...
-  _path_package = ros::package::getPath("realm_ros");
-  _path_profile = _path_package + "/profiles/" + _profile;
-  _path_output = _path_package + "/output";
+  if (_path_working_directory == "uninitialised")
+    _path_working_directory = ros::package::getPath("realm_ros");
+
+  _path_profile = _path_working_directory + "/profiles/" + _profile;
+
+  if (_path_output == "uninitialised")
+    _path_output = _path_working_directory + "/output";
 
   // Set settings filepaths
   _file_settings_camera = _path_profile + "/camera/calib.yaml";
@@ -518,9 +525,9 @@ void StageNode::setPaths()
   if (_is_master_stage)
   {
     // Create sub directory with timestamp
-    _dir_output = io::getDateTime();
-    if (!io::dirExists(_path_output + "/" + _dir_output))
-      io::createDir(_path_output + "/" + _dir_output);
+    _dir_date_time = io::getDateTime();
+    if (!io::dirExists(_path_output + "/" + _dir_date_time))
+      io::createDir(_path_output + "/" + _dir_date_time);
   }
 }
 

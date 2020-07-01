@@ -82,7 +82,7 @@ class Exiv2GrabberNode
     std::string _topic_prefix;
 
     std::string _path_grab;
-    std::string _path_package;
+    std::string _path_working_directory;
     std::string _path_profile;
 
     std::string _file_settings_camera;

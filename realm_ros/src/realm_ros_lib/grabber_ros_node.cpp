@@ -74,20 +74,25 @@ void RosGrabberNode::readParameters()
 {
   ros::NodeHandle param_nh("~");
 
-  param_nh.param("config/id",               _id_node,                 std::string("uninitialised"));
-  param_nh.param("config/profile",          _profile,                 std::string("uninitialised"));
-  param_nh.param("topic/image",             _topic_image,             std::string("uninitialised"));
-  param_nh.param("topic/gnss",              _topic_gnss,              std::string("uninitialised"));
-  param_nh.param("topic/heading",           _topic_heading,           std::string("uninitialised"));
-  param_nh.param("topic/relative_altitude", _topic_relative_altitude, std::string("uninitialised"));
-  param_nh.param("topic/orientation",       _topic_orientation,       std::string("uninitialised"));
-  param_nh.param("topic/out",               _topic_out,               std::string("uninitialised"));
+  param_nh.param("config/id",                    _id_node,                 std::string("uninitialised"));
+  param_nh.param("config/profile",               _profile,                 std::string("uninitialised"));
+  param_nh.param("config/opt/working_directory", _path_working_directory,  std::string("uninitialised"));
+  param_nh.param("topic/image",                  _topic_image,             std::string("uninitialised"));
+  param_nh.param("topic/gnss",                   _topic_gnss,              std::string("uninitialised"));
+  param_nh.param("topic/heading",                _topic_heading,           std::string("uninitialised"));
+  param_nh.param("topic/relative_altitude",      _topic_relative_altitude, std::string("uninitialised"));
+  param_nh.param("topic/orientation",            _topic_orientation,       std::string("uninitialised"));
+  param_nh.param("topic/out",                    _topic_out,               std::string("uninitialised"));
+
+  if (_path_working_directory != "uninitialised" && !io::dirExists(_path_working_directory))
+    throw(std::invalid_argument("Error: Working directory does not exist!"));
 }
 
 void RosGrabberNode::setPaths()
 {
-  _path_package = ros::package::getPath("realm_ros");
-  _path_profile = _path_package + "/profiles/" + _profile;
+  if (_path_working_directory == "uninitialised")
+    _path_working_directory = ros::package::getPath("realm_ros");
+  _path_profile = _path_working_directory + "/profiles/" + _profile;
 
   _file_settings_camera = _path_profile + "/camera/calib.yaml";
 

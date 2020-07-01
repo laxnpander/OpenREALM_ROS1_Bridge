@@ -108,12 +108,12 @@ class StageNode
     std::string _method;
 
     // working paths
-    std::string _path_package;
+    std::string _path_working_directory;
     std::string _path_profile;
     std::string _path_output;
 
     // working directories
-    std::string _dir_output;
+    std::string _dir_date_time;
 
     // filename of settings
     std::string _file_settings_stage;

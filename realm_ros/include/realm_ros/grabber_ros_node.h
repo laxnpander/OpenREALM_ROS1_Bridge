@@ -77,7 +77,7 @@ private:
   std::string _topic_out;
 
   // paths
-  std::string _path_package;
+  std::string _path_working_directory;
   std::string _path_profile;
 
   // filepaths

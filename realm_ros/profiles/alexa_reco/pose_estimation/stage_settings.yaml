@@ -6,7 +6,7 @@ queue_size: 1
 use_vslam: 1
 fallback_strategy: 1
 use_initial_guess: 0
-update_georef: 1
+update_georef: 0
 th_error_georef: 1.0
 overlap_max: 90
 overlap_max_fallback: 95
