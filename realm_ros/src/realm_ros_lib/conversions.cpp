@@ -460,7 +460,7 @@ realm_msgs::Frame to_ros::frame(const std_msgs::Header &header, const realm::Fra
   }
 
   cv::Mat map_points = frame->getSurfacePoints();
-  if (map_points.rows > 5)
+  if (map_points.rows > 0)
   {
     cv_bridge::CvImage img = to_ros::image(header, frame->getSurfacePoints());
     msg.surface_points = *img.toImageMsg();
