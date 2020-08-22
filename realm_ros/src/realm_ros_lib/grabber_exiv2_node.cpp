@@ -164,7 +164,7 @@ void Exiv2GrabberNode::spin()
     {
       if (_surface_pts.empty())
         throw(std::runtime_error("Error adding external surface points: No points were found!"));
-      frame->setSurfacePoints(_surface_pts, false);
+      frame->setSurfacePoints(_surface_pts);
     }
 
     pubFrame(frame);
