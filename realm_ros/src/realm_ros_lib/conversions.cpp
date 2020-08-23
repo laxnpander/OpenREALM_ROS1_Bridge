@@ -251,7 +251,7 @@ realm::Frame::Ptr to_realm::frame(const realm_msgs::Frame &msg)
 
   cv::Mat pcl = to_realm::pointCloud(msg.surface_points);
   if (pcl.cols >= 3 && pcl.rows > 5)
-    frame->setSurfacePoints(pcl, false);
+    frame->setSurfacePoints(pcl);
 
   return std::move(frame);
 }
