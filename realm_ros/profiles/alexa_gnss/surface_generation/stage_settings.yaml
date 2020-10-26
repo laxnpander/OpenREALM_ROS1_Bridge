@@ -5,7 +5,7 @@ queue_size: 5
 
 try_use_elevation: 1
 
-knn_radius_factor: 1.0
+knn_max_iter: 2
 
 # Mode for surface normal computation:
 # 0 - None,

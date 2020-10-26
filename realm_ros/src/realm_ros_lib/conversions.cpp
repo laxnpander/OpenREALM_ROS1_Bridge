@@ -242,16 +242,20 @@ realm::Frame::Ptr to_realm::frame(const realm_msgs::Frame &msg)
     frame->setVisualPose(to_realm::pose(msg.visual_pose));
   if (msg.is_georeferenced.data)
     frame->updateGeoreference(to_realm::georeference(msg.georeference));
-  if (msg.observed_map.length_x > 0 && msg.observed_map.length_y > 0)
-    frame->setObservedMap(to_realm::cvGridMap(msg.observed_map));
+  if (msg.surface_model.length_x > 0 && msg.surface_model.length_y > 0)
+    frame->setSurfaceModel(to_realm::cvGridMap(msg.surface_model));
+  if (msg.depthmap.data.width > 0 && msg.depthmap.data.height > 0)
+    frame->setDepthmap(to_realm::depthmap(msg.depthmap));
+  if (msg.orthophoto.length_x > 0 && msg.orthophoto.length_y > 0)
+    frame->setOrthophoto(to_realm::cvGridMap(msg.orthophoto));
   if (msg.is_keyframe.data)
     frame->setKeyframe(true);
   if (msg.is_surface_elevated.data)
     frame->setSurfaceAssumption(realm::SurfaceAssumption::ELEVATION);
 
-  cv::Mat pcl = to_realm::pointCloud(msg.surface_points);
+  cv::Mat pcl = to_realm::pointCloud(msg.sparse_cloud);
   if (pcl.cols >= 3 && pcl.rows > 5)
-    frame->setSurfacePoints(pcl, false);
+    frame->setSparseCloud(pcl, false);
 
   return std::move(frame);
 }
@@ -459,18 +463,22 @@ realm_msgs::Frame to_ros::frame(const std_msgs::Header &header, const realm::Fra
     msg.is_georeferenced.data = 1;
   }
 
-  cv::Mat map_points = frame->getSurfacePoints();
+  cv::Mat map_points = frame->getSparseCloud();
   if (map_points.rows > 0)
   {
-    cv_bridge::CvImage img = to_ros::image(header, frame->getSurfacePoints());
-    msg.surface_points = *img.toImageMsg();
+    cv_bridge::CvImage img = to_ros::image(header, frame->getSparseCloud());
+    msg.sparse_cloud = *img.toImageMsg();
   }
-  if (frame->hasObservedMap())
-    msg.observed_map = to_ros::cvGridMap(header, frame->getObservedMap());
   if (frame->isKeyframe())
     msg.is_keyframe.data = 1;
+  if (frame->getSurfaceModel())
+    msg.surface_model = to_ros::cvGridMap(header, frame->getSurfaceModel());
   if (frame->getSurfaceAssumption() == realm::SurfaceAssumption::ELEVATION)
     msg.is_surface_elevated.data = 1;
+  if (frame->getOrthophoto())
+    msg.orthophoto = to_ros::cvGridMap(header, frame->getOrthophoto());
+  if (frame->getDepthmap())
+    msg.depthmap = to_ros::depthmap(header, frame->getDepthmap());
 
   return msg;
 }
@@ -496,6 +504,19 @@ realm_msgs::GroundImageCompressed to_ros::groundImage(const std_msgs::Header &he
   msg.gpsdata.longitude = wgs.longitude;
   msg.gpsdata.altitude = wgs.altitude;
   msg.scale = GSD;
+  return msg;
+}
+
+realm_msgs::Depthmap to_ros::depthmap(const std_msgs::Header &header, const realm::Depthmap::Ptr &depthmap)
+{
+  realm_msgs::Depthmap msg;
+  msg.header = header;
+  msg.camera_model = to_ros::pinhole(depthmap->getCamera());
+  msg.pose = to_ros::pose(depthmap->getCamera()->pose());
+
+  cv_bridge::CvImage img = to_ros::image(header, depthmap->data());
+  msg.data = *img.toImageMsg();
+
   return msg;
 }
 
@@ -677,6 +698,13 @@ realm::CvGridMap::Ptr to_realm::cvGridMap(const realm_msgs::CvGridMap &msg)
   for (uint32_t i = 0; i < msg.layers.size(); ++i)
     map->add(msg.layers[i],  to_realm::image(msg.data[i]));
   return map;
+}
+
+realm::Depthmap::Ptr to_realm::depthmap(const realm_msgs::Depthmap &msg)
+{
+  camera::Pinhole::Ptr cam = to_realm::pinhole(msg.camera_model);
+  cam->setPose(to_realm::pose(msg.pose));
+  return std::make_shared<Depthmap>(to_realm::image(msg.data), *cam);
 }
 
 } // namespace realm

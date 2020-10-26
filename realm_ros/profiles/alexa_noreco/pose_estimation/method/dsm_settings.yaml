@@ -1,6 +1,0 @@
-%YAML:1.0
-
-type: DSM
-
-# Resize factor for images, should always be <= 1.0
-resizing: 1.0
