@@ -43,7 +43,7 @@ sudo apt install -y -q ros-$ROS_DISTRO-pcl-ros
 cd ~ && mkdir OpenREALM && cd OpenREALM
 git clone https://github.com/laxnpander/OpenREALM.git
 cd OpenREALM && OPEN_REALM_DIR=$(pwd)
-cd tools && source install_deps.sh
+cd tools && source install_deps.sh -i
 
 cd $OPEN_REALM_DIR && mkdir build && cd build && cmake -DTESTS_ENABLED=ON ..
 make -j $(nproc --all) && make install
