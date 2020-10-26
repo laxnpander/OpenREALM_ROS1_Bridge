@@ -16,6 +16,7 @@ add_message_files(
   GroundImageCompressed.msg
   Pinhole.msg
   CvGridMap.msg
+  Depthmap.msg
 )
 
 add_service_files(

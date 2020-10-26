@@ -28,10 +28,16 @@ geometry_msgs/Quaternion orientation
 sensor_msgs/NavSatFix gpsdata
 
 # (optional) Point cloud of the observed surface saved as cv::Mat row(i)(x,y,z,r,g,b,nx,ny,nz)
-sensor_msgs/Image surface_points
+sensor_msgs/Image sparse_cloud
 
-# (optional) Observed grid map of the frame projection
-realm_msgs/CvGridMap observed_map
+# (optional) Depthmap of the observed scene
+realm_msgs/Depthmap depthmap
+
+# (optional) Surface model as grid map of the frame projection
+realm_msgs/CvGridMap surface_model
+
+# (optional) Orthophoto of the frame
+realm_msgs/CvGridMap orthophoto
 
 # (optional) Heading in Degree, required if mapping on GNSS only
 std_msgs/Float32 heading

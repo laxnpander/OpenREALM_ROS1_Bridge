@@ -40,6 +40,7 @@
 #include <OpenREALM/realm_core/camera.h>
 #include <OpenREALM/realm_core/cv_grid_map.h>
 #include <OpenREALM/realm_core/analysis.h>
+#include <OpenREALM/realm_core/depthmap.h>
 
 #include <std_msgs/Float32.h>
 #include <std_msgs/ColorRGBA.h>
@@ -173,6 +174,13 @@ realm_msgs::GroundImageCompressed groundImage(const std_msgs::Header &header,
                                               const realm::UTMPose &ulc,
                                               double GSD,
                                               const cv::Mat &mask = cv::Mat());
+
+/*!
+ * @brief Converter for depthmap from REALM to ROS type.
+ * @param depthmap Depthmap data in realm container
+ * @return ROS message
+ */
+realm_msgs::Depthmap depthmap(const std_msgs::Header &header, const realm::Depthmap::Ptr &depthmap);
 
 /*!
  * @brief Converter for realm/OpenCV pose to ROS geometry message. Pose M is defined as 3x4 matrix with
@@ -331,6 +339,13 @@ cv::Mat imageCompressed(const sensor_msgs::CompressedImage &msg);
  * @return REALM CvGridMap
  */
 realm::CvGridMap::Ptr cvGridMap(const realm_msgs::CvGridMap &msg);
+
+/*!
+ * @brief Converter for ROS Depthmap message to REALM type
+ * @param msg ROS message of depthmap
+ * @return REALM depthmap
+ */
+realm::Depthmap::Ptr depthmap(const realm_msgs::Depthmap &msg);
 
 } // namespace to_realm
 } // namespace realm
