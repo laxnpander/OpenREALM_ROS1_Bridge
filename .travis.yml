@@ -21,7 +21,6 @@ env:
   global: # global settings for all jobs
     - ROS_REPO=ros
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
-    - BEFORE_INIT='bash ./tools/install_opencv.sh'
     - BEFORE_INIT='bash ./tools/install_deps.sh'
     - CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Release"
 
