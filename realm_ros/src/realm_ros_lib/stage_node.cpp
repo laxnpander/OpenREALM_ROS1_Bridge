@@ -74,6 +74,8 @@ StageNode::StageNode(int argc, char **argv)
     createStageOrthoRectification();
   if (_type_stage == "mosaicing")
     createStageMosaicing();
+  if (_type_stage == "tileing")
+    createStageTileing();
 
   // set stage path if master stage
   if (_is_master_stage)
@@ -191,6 +193,17 @@ void StageNode::createStageMosaicing()
   _publisher.insert({"output/mesh", _nh.advertise<visualization_msgs::Marker>(_topic_prefix + "mesh", 5)});
   _publisher.insert({"output/update/ortho", _nh.advertise<realm_msgs::GroundImageCompressed>(_topic_prefix + "update/ortho", 5)});
   //_publisher.insert({"output/update/elevation", _nh.advertise<realm_msgs::GroundImageCompressed>(_topic_prefix + "update/elevation", 5)});
+  linkStageTransport();
+}
+
+void StageNode::createStageTileing()
+{
+  _stage = std::make_shared<stages::Tileing>(_settings_stage, (*_settings_camera)["fps"].toDouble());
+  //_publisher.insert({"output/rgb", _nh.advertise<sensor_msgs::Image>(_topic_prefix + "rgb", 5)});
+  //_publisher.insert({"output/elevation", _nh.advertise<sensor_msgs::Image>(_topic_prefix + "elevation", 5)});
+  //_publisher.insert({"output/pointcloud", _nh.advertise<sensor_msgs::PointCloud2>(_topic_prefix + "pointcloud", 5)});
+  //_publisher.insert({"output/mesh", _nh.advertise<visualization_msgs::Marker>(_topic_prefix + "mesh", 5)});
+  //_publisher.insert({"output/update/ortho", _nh.advertise<realm_msgs::GroundImageCompressed>(_topic_prefix + "update/ortho", 5)});
   linkStageTransport();
 }
 

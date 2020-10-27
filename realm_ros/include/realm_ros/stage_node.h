@@ -41,6 +41,7 @@
 #include <OpenREALM/realm_stages/surface_generation.h>
 #include <OpenREALM/realm_stages/ortho_rectification.h>
 #include <OpenREALM/realm_stages/mosaicing.h>
+#include <OpenREALM/realm_stages/tileing.h>
 
 #include <std_msgs/String.h>
 #include <sensor_msgs/Image.h>
@@ -155,6 +156,7 @@ class StageNode
     void createStageSurfaceGeneration();
     void createStageOrthoRectification();
     void createStageMosaicing();
+    void createStageTileing();
     void linkStageTransport();
 
     // Functionalities
