@@ -146,6 +146,11 @@ void StageNode::createStagePoseEstimation()
   _publisher.insert({"output/pointcloud", _nh.advertise<sensor_msgs::PointCloud2>(_topic_prefix + "pointcloud", 5)});
   _publisher.insert({"debug/tracked", _nh.advertise<sensor_msgs::Image>(_topic_prefix + "tracked", 5)});
   linkStageTransport();
+
+  if (_topic_imu_in != "uninitialised")
+  {
+    _sub_input_imu = _nh.subscribe(_topic_imu_in, 100, &StageNode::subImu, this, ros::TransportHints());
+  }
 }
 
 void StageNode::createStageDensification()
@@ -256,6 +261,19 @@ void StageNode::subFrame(const realm_msgs::Frame &msg)
   _nrof_msgs_rcvd++;
 }
 
+void StageNode::subImu(const sensor_msgs::Imu &msg)
+{
+  VisualSlamIF::ImuData imu;
+  imu.timestamp = msg.header.stamp.sec;
+  imu.acceleration.x = msg.linear_acceleration.x;
+  imu.acceleration.y = msg.linear_acceleration.y;
+  imu.acceleration.z = msg.linear_acceleration.z;
+  imu.gyroscope.x = msg.angular_velocity.x;
+  imu.gyroscope.y = msg.angular_velocity.y;
+  imu.gyroscope.z = msg.angular_velocity.z;
+  reinterpret_cast<stages::PoseEstimation*>(_stage.get())->queueImuData(imu);
+}
+
 void StageNode::subOutputPath(const std_msgs::String &msg)
 {
   // check if output directory has changed
@@ -305,6 +323,7 @@ void StageNode::pubPose(const cv::Mat &pose, uint8_t zone, char band, const std:
   wgs_msg.header = header;
   wgs_msg.header.frame_id = "wgs";
   wgs_msg.pose = to_ros::poseWgs84(pose, zone, band);
+
   _publisher[topic + "/utm"].publish(utm_msg);
   _publisher[topic + "/wgs"].publish(wgs_msg);
 
@@ -499,7 +518,8 @@ void StageNode::readParams()
   param_nh.param("stage/type", _type_stage, std::string("uninitialised"));
   param_nh.param("stage/master", _is_master_stage, false);
   param_nh.param("stage/output_dir", _path_output, std::string("uninitialised"));
-  param_nh.param("topics/input", _topic_frame_in, std::string("uninitialised"));
+  param_nh.param("topics/input/frame", _topic_frame_in, std::string("uninitialised"));
+  param_nh.param("topics/input/imu", _topic_imu_in, std::string("uninitialised"));
   param_nh.param("topics/output", _topic_frame_out, std::string("uninitialised"));
   param_nh.param("config/id", _id_camera, std::string("uninitialised"));
   param_nh.param("config/profile", _profile, std::string("uninitialised"));
@@ -552,6 +572,12 @@ void StageNode::setTfBaseFrame(const UTMPose &utm)
   _is_tf_base_initialized = true;
 
   geographic_msgs::GeoPoint wgs = to_ros::wgs84(utm);
+
+  std_msgs::Header header;
+  header.stamp = ros::Time::now();
+  header.frame_id = _tf_base_frame_name;
+
+  _gnss_base.header = header;
   _gnss_base.latitude = wgs.latitude;
   _gnss_base.longitude = wgs.longitude;
   _gnss_base.altitude = wgs.altitude;

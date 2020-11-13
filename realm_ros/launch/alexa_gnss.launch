@@ -22,7 +22,7 @@
     <node pkg="realm_ros" type="realm_stage_node" name="realm_pose_estimation" output="screen">
         <param name="stage/type" type="string" value="pose_estimation"/>
 	<param name="stage/master" type="bool" value="true"/>
-        <param name="topics/input" type="string" value="$(arg topic_adapter)"/>
+        <param name="topics/input/frame" type="string" value="$(arg topic_adapter)"/>
         <param name="topics/output" type="string" value="$(arg topic_pose_est)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
         <param name="config/profile" type="string" value="alexa_gnss"/>

@@ -74,7 +74,8 @@ private:
   std::string _topic_heading;
   std::string _topic_relative_altitude;
   std::string _topic_orientation;
-  std::string _topic_out;
+  std::string _topic_out_frame;
+  std::string _topic_out_imu;
 
   // paths
   std::string _path_working_directory;
@@ -82,6 +83,8 @@ private:
 
   // filepaths
   std::string _file_settings_camera;
+
+  bool _do_imu_passthrough;
 
   int _nrof_frames_received;
 
@@ -107,6 +110,7 @@ private:
   message_filters::Synchronizer<ApproxTimePolicy> _sync_topics;
 
   ros::Publisher _pub_frame;
+  ros::Publisher _pub_imu;
 
   camera::Pinhole::Ptr _cam;
   realm_msgs::Pinhole _cam_msg;

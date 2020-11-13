@@ -45,7 +45,9 @@
 
 #include <std_msgs/String.h>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/Imu.h>
 #include <sensor_msgs/PointCloud.h>
+#include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <nav_msgs/Path.h>
 #include <visualization_msgs/Marker.h>
@@ -92,6 +94,7 @@ class StageNode
 
     // ros communication handles
     ros::Subscriber _sub_input_frame;
+    ros::Subscriber _sub_input_imu;
     ros::Subscriber _sub_output_dir;
     std::unordered_map<std::string, ros::Publisher> _publisher;
 
@@ -125,6 +128,7 @@ class StageNode
     std::string _topic_prefix;
     std::string _topic_frame_in;
     std::string _topic_frame_out;
+    std::string _topic_imu_in;
 
     // transforms
     bool _is_tf_base_initialized;
@@ -164,6 +168,7 @@ class StageNode
 
     // ros communication functions
     void subFrame(const realm_msgs::Frame &msg);
+    void subImu(const sensor_msgs::Imu &msg);
     void subOutputPath(const std_msgs::String &msg);
 
     // stage callbacks

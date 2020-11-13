@@ -23,7 +23,8 @@
 using namespace realm;
 
 RosGrabberNode::RosGrabberNode()
-  : _nrof_frames_received(0),
+  : _do_imu_passthrough(false),
+    _nrof_frames_received(0),
     _fps(1.0),
     _cam(nullptr),
     _sync_topics(ApproxTimePolicy(1000), _sub_input_image, _sub_input_gnss)
@@ -31,11 +32,10 @@ RosGrabberNode::RosGrabberNode()
   readParameters();
   setPaths();
 
-  // Loading camera from provided file, check first if absolute path was provided
   if (io::fileExists(_file_settings_camera))
     _cam = std::make_shared<camera::Pinhole>(io::loadCameraFromYaml(_file_settings_camera, &_fps));
   else
-    _cam = std::make_shared<camera::Pinhole>(io::loadCameraFromYaml(_path_profile + "/camera/", _file_settings_camera));
+    throw(std::invalid_argument("Error loading camera file: Provided path does not exist."));
   _cam_msg = to_ros::pinhole(_cam);
 
   ROS_INFO_STREAM(
@@ -58,7 +58,10 @@ RosGrabberNode::RosGrabberNode()
   _sub_input_gnss.subscribe(_nh, _topic_gnss, 10);
   _sync_topics.registerCallback(boost::bind(&RosGrabberNode::subImageGnss, this, _1, _2));
 
-  _pub_frame = _nh.advertise<realm_msgs::Frame>(_topic_out, 100);
+  _pub_frame = _nh.advertise<realm_msgs::Frame>(_topic_out_frame, 100);
+
+  if (_do_imu_passthrough)
+    _pub_imu = _nh.advertise<sensor_msgs::Imu>(_topic_out_imu, 100);
 
   ROS_INFO_STREAM("ROS Grabber Node subscribed to topics:\n"
                   "- Image topic:\t\t"  << _topic_image   << "\n"
@@ -66,7 +69,8 @@ RosGrabberNode::RosGrabberNode()
                   "- Heading topic:\t"  << _topic_heading << "\n"
                   "- Rel. Altitude topic:  "  << _topic_relative_altitude << "\n"
                   "- Orientation topic:\t"  << _topic_orientation << "\n"
-                  "- Output topic:\t\t" << _topic_out     << "\n");
+                  "- Output topic IMU:\t"  << _topic_out_imu << "\n"
+                  "- Output topic Frame:\t\t" << _topic_out_frame     << "\n");
 
 }
 
@@ -82,7 +86,11 @@ void RosGrabberNode::readParameters()
   param_nh.param("topic/heading",                _topic_heading,           std::string("uninitialised"));
   param_nh.param("topic/relative_altitude",      _topic_relative_altitude, std::string("uninitialised"));
   param_nh.param("topic/orientation",            _topic_orientation,       std::string("uninitialised"));
-  param_nh.param("topic/out",                    _topic_out,               std::string("uninitialised"));
+  param_nh.param("topic/out/frame",              _topic_out_frame,         std::string("uninitialised"));
+  param_nh.param("topic/out/imu",                _topic_out_imu,           std::string("uninitialised"));
+
+  if (_topic_out_imu != "uninitialised")
+    _do_imu_passthrough = true;
 
   if (_path_working_directory != "uninitialised" && !io::dirExists(_path_working_directory))
     throw(std::invalid_argument("Error: Working directory does not exist!"));
@@ -130,6 +138,9 @@ void RosGrabberNode::subOrientation(const sensor_msgs::Imu &msg)
   _mutex_orientation.lock();
   _orientation = to_realm::orientation(msg.orientation);
   _mutex_orientation.unlock();
+
+  if (_do_imu_passthrough)
+    _pub_imu.publish(msg);
 }
 
 void RosGrabberNode::subImageGnss(const sensor_msgs::ImageConstPtr &msg_img, const sensor_msgs::NavSatFixConstPtr &msg_gnss)
