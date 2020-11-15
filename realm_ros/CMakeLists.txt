@@ -60,7 +60,6 @@ endif()
 find_package(cmake_modules REQUIRED)
 
 find_package(OpenREALM REQUIRED)
-find_package(Pangolin REQUIRED)
 
 ################################################################################
 # Catkin Package
@@ -111,7 +110,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         ${cmake_modules_LIBRARIES}
         ${OpenCV_LIBRARIES}
 	    realm_stages
-        ${Pangolin_LIBRARIES}
 )
 
 add_dependencies(${PROJECT_NAME}
