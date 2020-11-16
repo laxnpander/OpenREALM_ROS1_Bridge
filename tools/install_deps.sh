@@ -50,8 +50,7 @@ cd ~ && mkdir OpenREALM && cd OpenREALM
 git clone https://github.com/laxnpander/OpenREALM.git
 cd OpenREALM && OPEN_REALM_DIR=$(pwd)
 
-GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [ "${GIT_BRANCH}" = "dev" ]; then
+if [ "$TRAVIS_BRANCH" = "dev" ]; then
 	echo "Detected git branch: '${GIT_BRANCH}'. Checking out OpenREALM dev..."
 	git checkout dev
 else
