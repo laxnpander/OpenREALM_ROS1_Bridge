@@ -49,6 +49,14 @@ cd ~ && git clone -b 3.3.1 https://github.com/opencv/opencv.git \
 cd ~ && mkdir OpenREALM && cd OpenREALM
 git clone https://github.com/laxnpander/OpenREALM.git
 cd OpenREALM && OPEN_REALM_DIR=$(pwd)
+
+if [ "$TRAVIS_BRANCH" = "dev" ]; then
+	echo "Detected git branch: '${GIT_BRANCH}'. Checking out OpenREALM dev..."
+	git checkout dev
+else
+	echo "Detected git branch: '${GIT_BRANCH}'. Continue OpenREALM library as master."
+fi
+
 cd tools && source install_deps.sh -i
 
 cd $OPEN_REALM_DIR && mkdir build && cd build && cmake -DTESTS_ENABLED=ON ..
