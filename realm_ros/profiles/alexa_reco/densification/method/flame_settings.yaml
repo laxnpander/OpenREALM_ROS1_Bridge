@@ -1,0 +1,8 @@
+%YAML:1.0
+#--------------------------------------
+# Parameters for plane sweep 
+#--------------------------------------
+# type of the parameter file, here plane sweep
+type: Flame
+# Downsizing of image
+resizing: 0.35
