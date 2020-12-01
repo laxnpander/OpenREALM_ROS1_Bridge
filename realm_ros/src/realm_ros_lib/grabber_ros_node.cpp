@@ -35,7 +35,7 @@ RosGrabberNode::RosGrabberNode()
   if (io::fileExists(_file_settings_camera))
     _cam = std::make_shared<camera::Pinhole>(io::loadCameraFromYaml(_file_settings_camera, &_fps));
   else
-    _cam = std::make_shared<camera::Pinhole>(io::loadCameraFromYaml(_path_profile + "/camera/", _file_settings_camera));
+    _cam = std::make_shared<camera::Pinhole>(io::loadCameraFromYaml(_path_profile + "/camera/" + _file_settings_camera));
   _cam_msg = to_ros::pinhole(_cam);
 
   ROS_INFO_STREAM(

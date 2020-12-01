@@ -54,11 +54,15 @@ find_package(catkin REQUIRED COMPONENTS
 # Fix to avoid OpenCV package confusion with ROS melodic
 find_package(OpenCV 3.3.1 EXACT QUIET)
 if (NOT OpenCV_FOUND)
-    find_package(OpenCV 3 REQUIRED)
+    find_package(OpenCV 3 QUIET)
+endif()
+if (NOT OpenCV_FOUND)
+    find_package(OpenCV 4 REQUIRED)
+    message(WARNING "OpenCV 4 Support is experimental, use at your own risk!")
 endif()
 
 find_package(cmake_modules REQUIRED)
-
+find_package(CGAL REQUIRED)
 find_package(OpenREALM REQUIRED)
 
 
@@ -86,6 +90,7 @@ catkin_package(
             cmake_modules
         DEPENDS
             OpenCV
+            CGAL
 )
 
 
@@ -132,7 +137,7 @@ target_link_libraries(realm_exiv2_grabber PUBLIC ${PROJECT_NAME})
 
 add_executable(realm_stage_node src/stage_node_main.cpp)
 add_dependencies(realm_stage_node ${catkin_EXPORTED_TARGETS})
-target_link_libraries(realm_stage_node PUBLIC ${PROJECT_NAME} -lCGAL)
+target_link_libraries(realm_stage_node PUBLIC ${PROJECT_NAME} CGAL)
 
 ## Compile Orb vocabulary
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/tools)

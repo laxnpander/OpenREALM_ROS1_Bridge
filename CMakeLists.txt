@@ -23,7 +23,6 @@ project(OpenREALM_ROS1_Bridge)
 set(OpenREALM_ROS1_BRIDGE_VERSION "1.0")
 set(OpenREALM_ROS1_BRIDGE_VERSION_NUMBER "1000")
 
-
 ################################################################################
 # Include CMake dependencies
 ################################################################################
@@ -36,7 +35,6 @@ set(OpenREALM_ROS1_BRIDGE_VERSION_NUMBER "1000")
 ################################################################################
 # Compiler specific configuration
 ################################################################################
-
 
 cmake_policy(SET CMP0028 NEW)
 
