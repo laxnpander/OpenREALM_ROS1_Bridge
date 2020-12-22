@@ -61,7 +61,6 @@ find_package(cmake_modules REQUIRED)
 
 find_package(OpenREALM REQUIRED)
 
-
 ################################################################################
 # Catkin Package
 ################################################################################
@@ -110,7 +109,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         ${catkin_LIBRARIES}
         ${cmake_modules_LIBRARIES}
         ${OpenCV_LIBRARIES}
-	    realm_stages
+	realm_stages
+        -lCGAL
 )
 
 add_dependencies(${PROJECT_NAME}
@@ -133,12 +133,6 @@ target_link_libraries(realm_exiv2_grabber PUBLIC ${PROJECT_NAME})
 add_executable(realm_stage_node src/stage_node_main.cpp)
 add_dependencies(realm_stage_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(realm_stage_node PUBLIC ${PROJECT_NAME} -lCGAL)
-
-## Compile Orb vocabulary
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/tools)
-#add_executable(bin_vocabulary tools/bin_vocabulary.cc)
-#target_link_libraries(bin_vocabulary ${PROJECT_NAME} ${catkin_LIBRARIES})
-
 
 ################################################################################
 # Install

@@ -36,11 +36,10 @@ Exiv2GrabberNode::Exiv2GrabberNode()
 
   _exiv2_reader = io::Exiv2FrameReader(io::Exiv2FrameReader::FrameTags::loadFromFile(_path_profile + "/config/exif.yaml"));
 
-  // Loading camera from provided file, check first if absolute path was provided
   if (io::fileExists(_file_settings_camera))
     _cam = std::make_shared<camera::Pinhole>(io::loadCameraFromYaml(_file_settings_camera));
   else
-    _cam = std::make_shared<camera::Pinhole>(io::loadCameraFromYaml(_path_profile + "/camera/", _file_settings_camera));
+    throw(std::invalid_argument("Error loading camera file: Provided path does not exist."));
   _cam_msg = to_ros::pinhole(_cam);
 
   // Loading poses from file if provided
@@ -187,7 +186,7 @@ void Exiv2GrabberNode::pubFrame(const Frame::Ptr &frame)
   // Create message header
   std_msgs::Header header;
   header.stamp = ros::Time::now();
-  header.frame_id = "utm";
+  header.frame_id = "map";
 
   // Create message informations
   realm_msgs::Frame msg_frame = to_ros::frame(header, frame);
