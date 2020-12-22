@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 3.9)
 project(realm_rviz_plugin)
 
 find_package(catkin REQUIRED COMPONENTS rviz cv_bridge geographic_msgs geodesy realm_msgs)
-find_package(OpenCV 3 REQUIRED)
+find_package(OpenCV 3 QUIET)
+if (NOT OpenCV_FOUND)
+	find_package(OpenCV 4 REQUIRED)
+	message(WARNING "OpenCV 4 Support is experimental, use at your own risk!")
+endif()
 find_package(PCL 1.7 REQUIRED) 
 
 ####################
@@ -71,10 +75,6 @@ add_dependencies(ground_image_test_node
 target_link_libraries(ground_image_test_node
 		${PROJECT_NAME}
 		)
-
-
-add_definitions(-std=c++11)
-
 
 
 install(TARGETS
