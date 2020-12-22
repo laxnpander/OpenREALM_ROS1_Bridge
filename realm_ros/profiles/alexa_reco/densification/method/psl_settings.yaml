@@ -26,7 +26,7 @@ match_window_size_y: 30
 occlusion_mode: 1
 # 0 - PLANE_SWEEP_PLANEMODE_UNIFORM_DEPTH
 # 1 - PLANE_SWEEP_PLANEMODE_UNIFORM_DISPARITY
-plane_gen_mode: 1
+plane_gen_mode: 0
 # 0 - PLANE_SWEEP_SAD
 # 1 - PLANE_SWEEP_ZNCC
 match_cost: 0

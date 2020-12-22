@@ -109,7 +109,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         ${catkin_LIBRARIES}
         ${cmake_modules_LIBRARIES}
         ${OpenCV_LIBRARIES}
-	    realm_stages
+	realm_stages
+        -lCGAL
 )
 
 add_dependencies(${PROJECT_NAME}
