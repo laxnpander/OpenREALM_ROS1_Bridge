@@ -11,8 +11,8 @@
     <node pkg="realm_ros" type="realm_exiv2_grabber" name="realm_exiv2_grabber" output="screen">
         <param name="config/id" type="string" value="$(arg camera_id)"/>
         <param name="config/input" type="string" value="/media/hdd/Datasets/edm_big_overlap_50p"/>
-        <param name="config/rate" type="double" value="20.0"/>
-        <param name="config/profile" type="string" value="alexa_no_reco"/>
+        <param name="config/rate" type="double" value="10.0"/>
+        <param name="config/profile" type="string" value="alexa_noreco"/>
         <!--param name="config/opt/poses" type="string" value=""/-->
         <!--param name="config/opt/surface_pts" type="string" value=""/-->
         <!--param name="config/opt/set_all_keyframes" type="bool" value="True"/-->
@@ -25,8 +25,8 @@
         <param name="topics/input/frame" type="string" value="$(arg topic_adapter)"/>
         <param name="topics/output" type="string" value="$(arg topic_pose_est)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
-        <param name="config/profile" type="string" value="alexa_no_reco"/>
-        <param name="config/method" type="string" value="orb_slam3"/>
+        <param name="config/profile" type="string" value="alexa_noreco"/>
+        <param name="config/method" type="string" value="open_vslam"/>
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
     </node>
@@ -36,7 +36,7 @@
         <param name="topics/input/frame" type="string" value="$(arg topic_pose_est)"/>
         <param name="topics/output" type="string" value="$(arg topic_surf)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
-        <param name="config/profile" type="string" value="alexa_no_reco"/>
+        <param name="config/profile" type="string" value="alexa_noreco"/>
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
     </node>
@@ -46,7 +46,7 @@
         <param name="topics/input/frame" type="string" value="$(arg topic_surf)"/>
         <param name="topics/output" type="string" value="$(arg topic_rect)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
-        <param name="config/profile" type="string" value="alexa_no_reco"/>
+        <param name="config/profile" type="string" value="alexa_noreco"/>
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
     </node>
@@ -55,7 +55,7 @@
         <param name="stage/type" type="string" value="mosaicing"/>
         <param name="topics/input/frame" type="string" value="$(arg topic_rect)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
-        <param name="config/profile" type="string" value="alexa_no_reco"/>
+        <param name="config/profile" type="string" value="alexa_noreco"/>
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output"/-->
     </node>
