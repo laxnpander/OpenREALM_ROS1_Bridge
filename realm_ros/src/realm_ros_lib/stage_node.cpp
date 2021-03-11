@@ -134,8 +134,15 @@ void StageNode::createStagePoseEstimation()
   VisualSlamSettings::Ptr settings_vslam = VisualSlamSettingsFactory::load(_file_settings_method, _path_profile + "/" + _type_stage + "/method");
   ROS_INFO("STAGE_NODE [%s]: : Detected vslam type: '%s'", _type_stage.c_str(), (*settings_vslam)["type"].toString().c_str());
 
+  ImuSettings::Ptr settings_imu = nullptr;
+  if ((*_settings_stage)["use_imu"].toInt() > 0)
+  {
+    settings_imu = std::make_shared<ImuSettings>();
+    settings_imu->loadFromFile(_file_settings_imu);
+  }
+
   // Topic and stage creation
-  _stage = std::make_shared<stages::PoseEstimation>(_settings_stage, settings_vslam, _settings_camera, (*_settings_camera)["fps"].toDouble());
+  _stage = std::make_shared<stages::PoseEstimation>(_settings_stage, settings_vslam, _settings_camera, settings_imu, (*_settings_camera)["fps"].toDouble());
   _publisher.insert({"output/frame", _nh.advertise<realm_msgs::Frame>(_topic_frame_out, 5)});
   _publisher.insert({"output/pose/visual/utm", _nh.advertise<geometry_msgs::PoseStamped>(_topic_prefix + "pose/visual/utm", 5)});
   _publisher.insert({"output/pose/visual/wgs", _nh.advertise<geometry_msgs::PoseStamped>(_topic_prefix + "pose/visual/wgs", 5)});
@@ -546,7 +553,8 @@ void StageNode::setPaths()
 
   // Set settings filepaths
   _file_settings_camera = _path_profile + "/camera/calib.yaml";
-  _file_settings_stage = _path_profile + "/" + _type_stage + "/stage_settings.yaml";
+  _file_settings_imu    = _path_profile + "/config/imu.yaml";
+  _file_settings_stage  = _path_profile + "/" + _type_stage + "/stage_settings.yaml";
   _file_settings_method = _path_profile + "/" + _type_stage + "/method/" + _method + "_settings.yaml";
 
   if (!io::dirExists(_path_profile))

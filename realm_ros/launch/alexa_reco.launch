@@ -26,50 +26,50 @@
         <param name="topics/output" type="string" value="$(arg topic_pose_est)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
         <param name="config/profile" type="string" value="alexa_reco"/>
-        <param name="config/method" type="string" value="open_vslam"/>
+        <param name="config/method" type="string" value="ov2slam"/>
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
     </node>
 
-    <node pkg="realm_ros" type="realm_stage_node" name="realm_densification" output="screen">
+    <!--node pkg="realm_ros" type="realm_stage_node" name="realm_densification" output="screen">
         <param name="stage/type" type="string" value="densification"/>
         <param name="topics/input/frame" type="string" value="$(arg topic_pose_est)"/>
         <param name="topics/output" type="string" value="$(arg topic_dense)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
         <param name="config/profile" type="string" value="alexa_reco"/>
-        <param name="config/method" type="string" value="psl"/>
+        <param name="config/method" type="string" value="psl"/-->
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
-    </node>
+    <!--/node>
 
     <node pkg="realm_ros" type="realm_stage_node" name="realm_surface_generation" output="screen">
         <param name="stage/type" type="string" value="surface_generation"/>
         <param name="topics/input/frame" type="string" value="$(arg topic_dense)"/>
         <param name="topics/output" type="string" value="$(arg topic_surf)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
-        <param name="config/profile" type="string" value="alexa_reco"/>
+        <param name="config/profile" type="string" value="alexa_reco"/-->
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
-    </node>
+    <!--/node>
 
     <node pkg="realm_ros" type="realm_stage_node" name="realm_ortho_rectification" output="screen">
         <param name="stage/type" type="string" value="ortho_rectification"/>
         <param name="topics/input/frame" type="string" value="$(arg topic_surf)"/>
         <param name="topics/output" type="string" value="$(arg topic_rect)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
-        <param name="config/profile" type="string" value="alexa_reco"/>
+        <param name="config/profile" type="string" value="alexa_reco"/-->
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
-    </node>
+    <!--/node>
 
     <node pkg="realm_ros" type="realm_stage_node" name="realm_mosaicing" output="screen">
         <param name="stage/type" type="string" value="mosaicing"/>
         <param name="topics/input/frame" type="string" value="$(arg topic_rect)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
-        <param name="config/profile" type="string" value="alexa_reco"/>
+        <param name="config/profile" type="string" value="alexa_reco"/-->
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output"/-->
-    </node>
+    <!--/node-->
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realm_ros)/rviz/realm.rviz" />
 
