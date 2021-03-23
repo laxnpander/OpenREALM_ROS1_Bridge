@@ -27,8 +27,8 @@ geometry_msgs/Quaternion orientation
 # (required) Gnss data containing geodetic informations of the image
 sensor_msgs/NavSatFix gpsdata
 
-# (optional) Point cloud of the observed surface saved as cv::Mat row(i)(x,y,z,r,g,b,nx,ny,nz)
-sensor_msgs/Image sparse_cloud
+# (optional) Point cloud of the observed surface
+realm_msgs/SparseCloud sparse_cloud
 
 # (optional) Depthmap of the observed scene
 realm_msgs/Depthmap depthmap

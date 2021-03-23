@@ -161,9 +161,9 @@ void Exiv2GrabberNode::spin()
     // External surface points can be provided
     if (_use_apriori_surface_pts)
     {
-      if (_surface_pts.empty())
+      //if (_surface_pts.empty())
         throw(std::runtime_error("Error adding external surface points: No points were found!"));
-      frame->setSparseCloud(_surface_pts, false);
+      //frame->setSparseCloud(_surface_pts, false);
     }
 
     pubFrame(frame);

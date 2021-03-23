@@ -17,6 +17,7 @@ add_message_files(
   Pinhole.msg
   CvGridMap.msg
   Depthmap.msg
+  SparseCloud.msg
 )
 
 add_service_files(

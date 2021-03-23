@@ -41,6 +41,7 @@
 #include <OpenREALM/realm_core/cv_grid_map.h>
 #include <OpenREALM/realm_core/analysis.h>
 #include <OpenREALM/realm_core/depthmap.h>
+#include <OpenREALM/realm_core/sparse_cloud.h>
 
 #include <std_msgs/Float32.h>
 #include <std_msgs/ColorRGBA.h>
@@ -151,6 +152,13 @@ tf::StampedTransform tfStamped(const geometry_msgs::PoseStamped &msg);
  * @return ROS message point cloud
  */
 sensor_msgs::PointCloud2 pointCloud(const std_msgs::Header &header, const cv::Mat &points);
+
+/*!
+ * @brief Converter for realm sparse cloud into a ros message containing the data as matrix and the point ids as vector
+ * @param sparse_cloud Sparse cloud of frame containing point ids as well as point coordinates as matrix
+ * @return ROS Message of sparse cloud
+ */
+realm_msgs::SparseCloud sparseCloud(const std_msgs::Header &header, const SparseCloud::Ptr &sparse_cloud);
 
 /*!
  * @brief Converter for realm pinhole camera to ROS message
@@ -318,6 +326,13 @@ cv::Mat georeference(const realm_msgs::Georeference &msg);
  * @return REALM point cloud with dim (nx3) or (nx9)
  */
 cv::Mat pointCloud(const sensor_msgs::Image &msg);
+
+/*!
+ * @brief Converter for ROS message sparse cloud to realm sparse cloud type.
+ * @param msg ROS sparse cloud message
+ * @return REALM sparse cloud
+ */
+realm::SparseCloud::Ptr sparseCloud(const realm_msgs::SparseCloud &msg);
 
 /*!
  * @brief Converter for ROS image message to opencv/REALM mat type
