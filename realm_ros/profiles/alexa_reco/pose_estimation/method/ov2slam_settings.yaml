@@ -14,8 +14,8 @@ finit_parallax: 20.
 
 # Features Extractor
 use_shi_tomasi: 0
-use_fast: 0
-use_brief: 1
+use_fast: 1
+use_brief: 0
 use_singlescale_detector: 1
 
 # Min dist between kps (define the number of kps)

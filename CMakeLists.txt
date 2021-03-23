@@ -28,6 +28,8 @@ set(OpenREALM_ROS1_BRIDGE_VERSION_NUMBER "1000")
 # Include CMake dependencies
 ################################################################################
 
+list(APPEND CMAKE_INCLUDE_PATH "/usr/local/include")
+
 ################################################################################
 # Options
 ################################################################################
@@ -36,9 +38,6 @@ set(OpenREALM_ROS1_BRIDGE_VERSION_NUMBER "1000")
 ################################################################################
 # Compiler specific configuration
 ################################################################################
-
-
-cmake_policy(SET CMP0028 NEW)
 
 if(CMAKE_BUILD_TYPE)
     message(STATUS "Build type specified as ${CMAKE_BUILD_TYPE}")

@@ -67,6 +67,9 @@ find_package(cmake_modules REQUIRED)
 
 find_package(OpenREALM REQUIRED)
 
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+find_package(openvslam REQUIRED)
+
 ################################################################################
 # Catkin Package
 ################################################################################

@@ -172,7 +172,7 @@ void RosGrabberNode::subImageGnss(const sensor_msgs::ImageConstPtr &msg_img, con
 
   LOG_F(INFO, "Time: %lu", Timer::getCurrentTimeNanoseconds());
 
-  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, Timer::getCurrentTimeMilliseconds(), img, utm, _cam, orientation);
+  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, Timer::getCurrentTimeNanoseconds(), img, utm, _cam, orientation);
 
   std_msgs::Header header;
   header.stamp = ros::Time::now();
