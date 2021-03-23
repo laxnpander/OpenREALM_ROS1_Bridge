@@ -20,6 +20,9 @@
 
 #include <realm_ros/grabber_ros_node.h>
 
+#include <realm_core/timer.h>
+#include <realm_core/loguru.h>
+
 using namespace realm;
 
 RosGrabberNode::RosGrabberNode()
@@ -27,7 +30,7 @@ RosGrabberNode::RosGrabberNode()
     _nrof_frames_received(0),
     _fps(1.0),
     _cam(nullptr),
-    _sync_topics(ApproxTimePolicy(1000), _sub_input_image, _sub_input_gnss)
+    _sync_topics(ApproxTimePolicy(5), _sub_input_image, _sub_input_gnss)
 {
   readParameters();
   setPaths();
@@ -162,12 +165,14 @@ void RosGrabberNode::subImageGnss(const sensor_msgs::ImageConstPtr &msg_img, con
   _mutex_relative_altitude.unlock();
 
   cv::Mat orientation;
-  if (_topic_orientation == "uninitialised" || _orientation.empty())
+  //if (_topic_orientation == "uninitialised" || _orientation.empty())
     orientation = io::computeOrientationFromHeading(utm.heading);
-  else
-    orientation = _orientation;
+  //else
+  //  orientation = _orientation;
 
-  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, msg_img->header.stamp.sec, img, utm, _cam, orientation);
+  LOG_F(INFO, "Time: %lu", Timer::getCurrentTimeNanoseconds());
+
+  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, Timer::getCurrentTimeNanoseconds(), img, utm, _cam, orientation);
 
   std_msgs::Header header;
   header.stamp = ros::Time::now();

@@ -123,6 +123,7 @@ class StageNode
     std::string _file_settings_stage;
     std::string _file_settings_method;
     std::string _file_settings_camera;
+    std::string _file_settings_imu;
 
     // topics
     std::string _topic_prefix;

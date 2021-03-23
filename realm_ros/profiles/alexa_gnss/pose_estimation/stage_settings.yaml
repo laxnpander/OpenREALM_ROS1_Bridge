@@ -4,6 +4,7 @@ type: pose_estimation
 queue_size: 1
 
 use_vslam: 0
+use_imu: 0
 set_all_frames_keyframes: 0
 fallback_strategy: 0
 use_initial_guess: 0
@@ -11,6 +12,7 @@ update_georef: 0
 th_error_georef: 1.0
 overlap_max: 100
 overlap_max_fallback: 80
+do_delay_keyframes: 1
 suppress_outdated_pose_pub: 0
 
 save_trajectory_gnss: 1

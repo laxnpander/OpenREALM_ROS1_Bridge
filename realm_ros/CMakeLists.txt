@@ -61,9 +61,14 @@ if (NOT OpenCV_FOUND)
     message(WARNING "OpenCV 4 Support is experimental, use at your own risk!")
 endif()
 
+find_package(Pangolin REQUIRED)
+
 find_package(cmake_modules REQUIRED)
 
 find_package(OpenREALM REQUIRED)
+
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+find_package(openvslam REQUIRED)
 
 ################################################################################
 # Catkin Package
@@ -114,6 +119,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         ${cmake_modules_LIBRARIES}
         ${OpenCV_LIBRARIES}
 	    realm_stages
+        ${Pangolin_LIBRARIES}
 )
 
 add_dependencies(${PROJECT_NAME}

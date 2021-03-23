@@ -1,0 +1,13 @@
+%YAML:1.0
+
+type: "Standard"
+gyro_noise_density: 0.0
+gyro_bias_random_walk_noise_density: 0.0
+acc_noise_density: 0.0
+acc_bias_random_walk_noise_density: 0.0
+freq: 15.0
+T_cam_imu: !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [ 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0. ]

@@ -7,14 +7,14 @@ th_elevation_min_nobs: 2
 th_elevation_variance: 1.0
 
 publish_mesh_every_nth_kf: 0
-publish_mesh_at_finish: 1
+publish_mesh_at_finish: 0
 downsample_publish_mesh: 0.5
 
 split_gtiff_channels: 0
 
 # Ortho
 save_ortho_rgb_one: 1
-save_ortho_rgb_all: 1
+save_ortho_rgb_all: 0
 save_ortho_gtiff_one: 1
 save_ortho_gtiff_all: 0
 
