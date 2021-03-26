@@ -253,7 +253,7 @@ realm::Frame::Ptr to_realm::frame(const realm_msgs::Frame &msg)
   if (msg.is_surface_elevated.data)
     frame->setSurfaceAssumption(realm::SurfaceAssumption::ELEVATION);
 
-  realm::SparseCloud::Ptr sparse_cloud = to_realm::sparseCloud(msg.sparse_cloud);
+  realm::PointCloud::Ptr sparse_cloud = to_realm::sparseCloud(msg.sparse_cloud);
   if (!sparse_cloud->empty())
     frame->setSparseCloud(sparse_cloud, false);
 
@@ -328,12 +328,13 @@ sensor_msgs::PointCloud2 to_ros::pointCloud(const std_msgs::Header &header, cons
   return pcl_msg;
 }
 
-realm_msgs::SparseCloud to_ros::sparseCloud(const std_msgs::Header &header, const realm::SparseCloud::Ptr &sparse_cloud)
+realm_msgs::PointCloud to_ros::sparseCloud(const std_msgs::Header &header, const realm::PointCloud::Ptr &sparse_cloud)
 {
-  realm_msgs::SparseCloud msg;
+  realm_msgs::PointCloud msg;
   msg.header    = header;
   msg.point_ids = sparse_cloud->getPointIds();
-  msg.points    = *to_ros::image(header, sparse_cloud->data()).toImageMsg();
+  cv_bridge::CvImage img = to_ros::image(header, sparse_cloud->data());
+  msg.points = *img.toImageMsg();
   return msg;
 }
 
@@ -472,8 +473,8 @@ realm_msgs::Frame to_ros::frame(const std_msgs::Header &header, const realm::Fra
     msg.is_georeferenced.data = 1;
   }
 
-  realm::SparseCloud::Ptr sparse_cloud = frame->getSparseCloud();
-  if (!sparse_cloud->empty())
+  realm::PointCloud::Ptr sparse_cloud = frame->getSparseCloud();
+  if (sparse_cloud != nullptr)
     msg.sparse_cloud = to_ros::sparseCloud(header, sparse_cloud);
   if (frame->isKeyframe())
     msg.is_keyframe.data = 1;
@@ -713,11 +714,14 @@ realm::Depthmap::Ptr to_realm::depthmap(const realm_msgs::Depthmap &msg)
   return std::make_shared<Depthmap>(to_realm::image(msg.data), *cam);
 }
 
-realm::SparseCloud::Ptr to_realm::sparseCloud(const realm_msgs::SparseCloud &msg)
+realm::PointCloud::Ptr to_realm::sparseCloud(const realm_msgs::PointCloud &msg)
 {
   std::vector<uint32_t> point_ids = msg.point_ids;
-  cv::Mat points = to_realm::image(msg.points);
-  return std::make_shared<realm::SparseCloud>(point_ids, points);
+
+  cv::Mat points;
+  if (msg.points.height > 0)
+   points = to_realm::image(msg.points);
+  return std::make_shared<realm::PointCloud>(point_ids, points);
 }
 
 } // namespace realm

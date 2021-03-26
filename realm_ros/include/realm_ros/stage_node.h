@@ -175,7 +175,7 @@ class StageNode
     // stage callbacks
     void pubFrame(const Frame::Ptr &frame, const std::string &topic);
     void pubPose(const cv::Mat &pose, uint8_t zone, char band, const std::string &topic);
-    void pubPointCloud(const SparseCloud::Ptr &sparse_cloud, const std::string &topic);
+    void pubPointCloud(const PointCloud::Ptr &sparse_cloud, const std::string &topic);
     void pubImage(const cv::Mat &img, const std::string &topic);
     void pubDepthMap(const cv::Mat &img, const std::string &topic);
     void pubMesh(const std::vector<Face> &faces, const std::string &topic);

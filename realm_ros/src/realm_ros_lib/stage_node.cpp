@@ -345,7 +345,7 @@ void StageNode::pubPose(const cv::Mat &pose, uint8_t zone, char band, const std:
     _is_tf_stage_initialized = true;
 }
 
-void StageNode::pubPointCloud(const SparseCloud::Ptr &sparse_cloud, const std::string &topic)
+void StageNode::pubPointCloud(const PointCloud::Ptr &sparse_cloud, const std::string &topic)
 {
   ros::Publisher publisher = _publisher[topic];
   if (publisher.getNumSubscribers() == 0)

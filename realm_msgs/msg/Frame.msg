@@ -28,7 +28,7 @@ geometry_msgs/Quaternion orientation
 sensor_msgs/NavSatFix gpsdata
 
 # (optional) Point cloud of the observed surface
-realm_msgs/SparseCloud sparse_cloud
+realm_msgs/PointCloud sparse_cloud
 
 # (optional) Depthmap of the observed scene
 realm_msgs/Depthmap depthmap
