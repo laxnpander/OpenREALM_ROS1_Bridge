@@ -59,5 +59,6 @@ fi
 
 cd tools && source install_deps.sh -i
 
-cd $OPEN_REALM_DIR && mkdir build && cd build && cmake -DTESTS_ENABLED=ON ..
+cd $OPEN_REALM_DIR && git submodule init && git submodule update
+mkdir build && cd build && cmake -DTESTS_ENABLED=ON ..
 make -j $(nproc --all) && make install
