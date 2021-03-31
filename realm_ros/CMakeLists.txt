@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.15)
 
 project(realm_ros)
 
@@ -66,6 +66,7 @@ find_package(Pangolin REQUIRED)
 find_package(cmake_modules REQUIRED)
 
 find_package(OpenREALM REQUIRED)
+find_package(openvslam REQUIRED)
 
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(openvslam REQUIRED)

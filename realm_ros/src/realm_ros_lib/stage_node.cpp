@@ -554,7 +554,7 @@ void StageNode::setPaths()
   // Set settings filepaths
   _file_settings_camera = _path_profile + "/camera/calib.yaml";
   _file_settings_imu    = _path_profile + "/config/imu.yaml";
-  _file_settings_stage  = _path_profile + "/" + _type_stage + "/stage_settings.yaml";
+  _file_settings_stage = _path_profile + "/" + _type_stage + "/stage_settings.yaml";
   _file_settings_method = _path_profile + "/" + _type_stage + "/method/" + _method + "_settings.yaml";
 
   if (!io::dirExists(_path_profile))
