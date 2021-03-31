@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with OpenREALM. If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.15)
 
 project(OpenREALM_ROS1_Bridge)
 
