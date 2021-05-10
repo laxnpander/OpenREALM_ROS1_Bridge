@@ -6,6 +6,7 @@ type: OV2SLAM
 resizing: 1.0
 
 force_realtime: 0
+buse_loop_closer: 1
 
 alpha: 0.
 
@@ -14,16 +15,17 @@ finit_parallax: 20.
 
 # Features Extractor
 use_shi_tomasi: 0
-use_fast: 1
-use_brief: 0
+use_fast: 0
+use_brief: 1
 use_singlescale_detector: 1
 
 # Min dist between kps (define the number of kps)
-nmax_dist: 35
+# 90
+nmax_dist: 25
 
 # Features quality th.
-nfast_th: 20
-dmax_quality: 0.0001 # used for gftt or singlescale
+nfast_th: 30
+dmax_quality: 0.001 # used for gftt or singlescale
 
 # Pre-processing
 use_clahe: 1
@@ -33,7 +35,7 @@ fclahe_val: 3
 do_klt: 1
 klt_use_prior: 1
 btrack_keyframetoframe: 1
-nklt_win_size: 21
+nklt_win_size: 9
 nklt_pyr_lvl: 6
 
 # Opencv Default: 30 iters. + 0.01 prec.
@@ -41,23 +43,23 @@ nmax_iter: 60
 fmax_px_precision: 0.01
 
 fmax_fbklt_dist: 0.5
-nklt_err: 20
+nklt_err: 30
 
 # Matching th.
 bdo_track_localmap: 1
 
 fmax_desc_dist: 0.2 #0.35 # Ratio from desc size (for binary desc.) 
-fmax_proj_pxdist: 2.
+fmax_proj_pxdist: 1.
 
 # Randomize RANSAC?
 do_epipolar: 1
 do_p3p : 1
 do_random: 1
 nransac_iter: 200
-fransac_err: 1.
+fransac_err: 0.5
 
 # Reproj err th.
-fmax_reproj_err: 1.
+fmax_reproj_err: 0.5
 buse_inv_depth: 1
 
 # Ceres related parameters
@@ -74,7 +76,7 @@ apply_l2_after_robust: 1
 nmin_covscore: 25 # Min co-obs for optimizing in SLAM mode BA
 
 # Map Filtering
-fkf_filtering_ratio: 0.98
+fkf_filtering_ratio: 0.95 #0.98
 
 # Final Pass
-do_full_ba: 1
+do_full_ba: 0

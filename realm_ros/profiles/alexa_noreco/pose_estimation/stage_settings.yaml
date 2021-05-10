@@ -2,6 +2,7 @@
 
 type: pose_estimation
 queue_size: 1
+log_to_file: 1
 
 use_vslam: 1
 use_imu: 0
@@ -10,6 +11,7 @@ fallback_strategy: 1
 use_initial_guess: 0
 update_georef: 0
 th_error_georef: 1.0
+min_nrof_frames_georef: 5
 overlap_max: 100
 overlap_max_fallback: 95
 do_delay_keyframes: 1

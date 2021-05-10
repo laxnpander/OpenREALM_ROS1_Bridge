@@ -1,7 +1,8 @@
 %YAML:1.0
 
 type: surface_generation
-queue_size: 5
+queue_size: 20
+log_to_file: 1
 
 try_use_elevation: 1
 
@@ -13,6 +14,8 @@ knn_max_iter: 2
 # 2 - Furthest neighbours,
 # 3 - Best-fit
 mode_surface_normals: 0
+
+compute_all_frames: 0
 
 save_valid: 0
 save_elevation: 0

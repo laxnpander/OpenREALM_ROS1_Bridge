@@ -67,9 +67,12 @@ find_package(cmake_modules REQUIRED)
 
 find_package(OpenREALM REQUIRED)
 find_package(openvslam REQUIRED)
+#find_package(ORB_SLAM2 REQUIRED)
+#find_package(ORB_SLAM3 REQUIRED)
+#find_package(ov2slam REQUIRED)
 
+find_package(VTK REQUIRED)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
-find_package(openvslam REQUIRED)
 
 ################################################################################
 # Catkin Package
@@ -84,6 +87,7 @@ catkin_package(
         CATKIN_DEPENDS
             roscpp
             roslib
+            pcl_ros
             geodesy
             cv_bridge
             tf
@@ -135,6 +139,7 @@ add_dependencies(${PROJECT_NAME}
 add_executable(realm_ros_grabber src/grabber_ros_node_main.cpp)
 add_dependencies(realm_ros_grabber ${catkin_EXPORTED_TARGETS})
 target_link_libraries(realm_ros_grabber PUBLIC ${PROJECT_NAME})
+target_link_libraries(realm_ros_grabber PUBLIC /media/hdd/Workspace/ORB_SLAM3/lib/libORB_SLAM3.so)
 
 add_executable(realm_exiv2_grabber src/grabber_exiv2_node_main.cpp)
 add_dependencies(realm_exiv2_grabber ${catkin_EXPORTED_TARGETS})

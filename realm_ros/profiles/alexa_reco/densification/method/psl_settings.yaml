@@ -5,9 +5,9 @@
 # type of the parameter file, here plane sweep
 type: PSL
 # Downsizing of image
-resizing: 0.35
+resizing: 0.3
 # Nrof camera per dense reconstruction
-n_cams: 9
+n_cams: 3
 enable_subpix: 1
 enable_color_match: 1
 # currently irrelevant

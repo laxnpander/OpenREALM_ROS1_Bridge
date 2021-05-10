@@ -2,6 +2,7 @@
 
 type: ortho_rectification
 queue_size: 5
+log_to_file: 1
 
 # Ground sampling distance [m/pix]
 GSD: 0.1

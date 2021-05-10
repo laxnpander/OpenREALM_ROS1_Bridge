@@ -2,3 +2,4 @@
 
 type: tileing
 queue_size: 5
+log_to_file: 1

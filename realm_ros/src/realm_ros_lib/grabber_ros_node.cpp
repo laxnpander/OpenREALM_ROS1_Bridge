@@ -113,7 +113,7 @@ void RosGrabberNode::setPaths()
 
 void RosGrabberNode::spin()
 {
-  ros::Rate rate(_fps);
+  ros::Rate rate(10*_fps);
   rate.sleep();
 }
 
@@ -170,9 +170,7 @@ void RosGrabberNode::subImageGnss(const sensor_msgs::ImageConstPtr &msg_img, con
   //else
   //  orientation = _orientation;
 
-  LOG_F(INFO, "Time: %lu", Timer::getCurrentTimeNanoseconds());
-
-  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, Timer::getCurrentTimeNanoseconds(), img, utm, _cam, orientation);
+  auto frame = std::make_shared<Frame>(_id_node, _nrof_frames_received, Timer::getCurrentTimeMilliseconds(), img, utm, _cam, orientation);
 
   std_msgs::Header header;
   header.stamp = ros::Time::now();

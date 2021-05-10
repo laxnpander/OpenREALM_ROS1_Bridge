@@ -1,10 +1,11 @@
 %YAML:1.0
 
 type: ortho_rectification
-queue_size: 5
+queue_size: 20
+log_to_file: 1
 
 # Ground sampling distance [m/pix]
-GSD: 0.1
+GSD: 0.15
 
 # Publisher that require additional resources
 publish_pointcloud: 0
