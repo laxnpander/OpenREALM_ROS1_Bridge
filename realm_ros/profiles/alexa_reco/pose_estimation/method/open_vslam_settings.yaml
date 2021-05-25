@@ -3,7 +3,7 @@
 type: OPEN_VSLAM
 
 # Resize factor for images, should always be <= 1.0
-resizing: 0.8
+resizing: 0.6
 
 # ORB Extractor: Number of features per image
 nrof_features: 2000
