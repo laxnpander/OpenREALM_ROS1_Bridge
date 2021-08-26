@@ -67,6 +67,7 @@ find_package(cmake_modules REQUIRED)
 
 find_package(OpenREALM REQUIRED)
 find_package(openvslam REQUIRED)
+find_package(OpenMP REQUIRED)
 #find_package(ORB_SLAM2 REQUIRED)
 #find_package(ORB_SLAM3 REQUIRED)
 #find_package(ov2slam REQUIRED)

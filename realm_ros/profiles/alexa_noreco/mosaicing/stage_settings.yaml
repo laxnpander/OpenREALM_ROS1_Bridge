@@ -15,7 +15,7 @@ split_gtiff_channels: 0
 
 # Ortho
 save_ortho_rgb_one: 1
-save_ortho_rgb_all: 1
+save_ortho_rgb_all: 0
 save_ortho_gtiff_one: 1
 save_ortho_gtiff_all: 0
 

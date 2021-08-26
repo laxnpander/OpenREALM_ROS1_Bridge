@@ -22,4 +22,4 @@ ini_th_FAST: 20
 min_th_FAST: 5
 
 # Path to the vocabulary file for place recognition
-path_vocabulary: /orb_slam3/ORBvoc.bin
+path_vocabulary: /open_vslam/orb_vocab.fbow

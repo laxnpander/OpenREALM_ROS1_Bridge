@@ -16,6 +16,7 @@ overlap_max: 100
 overlap_max_fallback: 80
 do_delay_keyframes: 1
 suppress_outdated_pose_pub: 0
+init_lost_frames_reset_count: 15
 
 save_trajectory_gnss: 1
 save_trajectory_visual: 1
