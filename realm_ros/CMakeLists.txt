@@ -140,7 +140,6 @@ add_dependencies(${PROJECT_NAME}
 add_executable(realm_ros_grabber src/grabber_ros_node_main.cpp)
 add_dependencies(realm_ros_grabber ${catkin_EXPORTED_TARGETS})
 target_link_libraries(realm_ros_grabber PUBLIC ${PROJECT_NAME})
-target_link_libraries(realm_ros_grabber PUBLIC /media/hdd/Workspace/ORB_SLAM3/lib/libORB_SLAM3.so)
 
 add_executable(realm_exiv2_grabber src/grabber_exiv2_node_main.cpp)
 add_dependencies(realm_exiv2_grabber ${catkin_EXPORTED_TARGETS})
