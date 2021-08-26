@@ -26,7 +26,7 @@
         <param name="topics/output" type="string" value="$(arg topic_pose_est)"/>
         <param name="config/id" type="string" value="$(arg camera_id)"/>
         <param name="config/profile" type="string" value="alexa_reco"/>
-        <param name="config/method" type="string" value="open_vslam"/>
+        <param name="config/method" type="string" value="ov2slam"/>
         <!--param name="config/opt/working_directory" type="string" value="/home/alex/Documents/OpenREALM"/-->
         <!--param name="config/opt/output_directory" type="string" value="/home/alex/Documents/output_test"/-->
     </node>
