@@ -61,7 +61,7 @@ if (NOT OpenCV_FOUND)
     message(WARNING "OpenCV 4 Support is experimental, use at your own risk!")
 endif()
 
-find_package(Pangolin REQUIRED)
+#find_package(Pangolin REQUIRED)
 
 find_package(cmake_modules REQUIRED)
 
