@@ -1,0 +1,82 @@
+%YAML:1.0
+
+type: OV2SLAM
+
+# Resize factor for images, should always be <= 1.0
+resizing: 1.0
+
+force_realtime: 0
+buse_loop_closer: 1
+
+alpha: 0.
+
+# Init / KF px th.
+finit_parallax: 20.
+
+# Features Extractor
+use_shi_tomasi: 0
+use_fast: 0
+use_brief: 1
+use_singlescale_detector: 1
+
+# Min dist between kps (define the number of kps)
+# 90
+nmax_dist: 25
+
+# Features quality th.
+nfast_th: 30
+dmax_quality: 0.001 # used for gftt or singlescale
+
+# Pre-processing
+use_clahe: 1
+fclahe_val: 3
+
+# KLT related settings.
+do_klt: 1
+klt_use_prior: 1
+btrack_keyframetoframe: 1
+nklt_win_size: 9
+nklt_pyr_lvl: 6
+
+# Opencv Default: 30 iters. + 0.01 prec.
+nmax_iter: 60
+fmax_px_precision: 0.01
+
+fmax_fbklt_dist: 0.5
+nklt_err: 30
+
+# Matching th.
+bdo_track_localmap: 1
+
+fmax_desc_dist: 0.2 #0.35 # Ratio from desc size (for binary desc.) 
+fmax_proj_pxdist: 1.
+
+# Randomize RANSAC?
+do_epipolar: 1
+do_p3p : 1
+do_random: 1
+nransac_iter: 200
+fransac_err: 0.5
+
+# Reproj err th.
+fmax_reproj_err: 0.5
+buse_inv_depth: 1
+
+# Ceres related parameters
+robust_mono_th: 9.2103 # (20% : 3.2189 / 10% :  4.6052 / 5% : 5.9915 / 2%: 7.8240 / 1%: 9.2103)  
+
+use_sparse_schur: 1
+use_dogleg: 0
+use_subspace_dogleg: 0
+use_nonmonotic_step: 0
+
+# Estimator parameters
+apply_l2_after_robust: 1
+
+nmin_covscore: 25 # Min co-obs for optimizing in SLAM mode BA
+
+# Map Filtering
+fkf_filtering_ratio: 0.95 #0.98
+
+# Final Pass
+do_full_ba: 0
