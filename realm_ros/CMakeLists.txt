@@ -9,6 +9,7 @@ project(realm_ros)
 
 
 include(CheckLanguage)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 
 ################################################################################
@@ -64,6 +65,8 @@ endif()
 #find_package(Pangolin REQUIRED)
 
 find_package(cmake_modules REQUIRED)
+find_package(Boost REQUIRED COMPONENTS filesystem)
+find_package(FLANN REQUIRED)
 
 find_package(OpenREALM REQUIRED)
 find_package(openvslam REQUIRED)
